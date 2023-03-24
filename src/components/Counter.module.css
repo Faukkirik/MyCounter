@@ -1,0 +1,8 @@
+.counter-box{
+    width: 200px;
+    height: 200px;
+    background-color: maroon;
+    color: maroon;
+    border-radius: 30px;
+    border: 5px solid black;
+}
