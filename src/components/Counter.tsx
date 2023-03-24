@@ -10,37 +10,29 @@ type CounterPropsType = {
     maxInitCount: number
 }
 export const Counter = (props: CounterPropsType) => {
-    const [error, setError] = useState<string | null>(null)
+    const error = "Pleas, reset counter!"
     const OnClickIncreaseCountHandler = () => {
-        if (props.count === props.maxInitCount){
-            setError("Please reset your counter")
-        } else {props.increaseCount()}
+        props.increaseCount()
     }
     const OnClickResetCountHandler = () => {
         props.resetCount()
-        setError(null)
     }
     return (
-        <div className={s.counterBox}>
-            <div>
-                {props.count}
+        <div className={s.wrapper}>
+            <div className={s.countNumber}>{props.count}</div>
+            {error && <div className={s.errorClass}>{props.count === props.maxInitCount ? error : ''}</div>}
+            <div className={s.flexButton}>
+                <SuperButton
+                    title={"incr"}
+                    onClickHandler={OnClickIncreaseCountHandler}
+                    disable={props.count === props.maxInitCount}
+                />
+                <SuperButton
+                    title={"reset"}
+                    onClickHandler={OnClickResetCountHandler}
+                    disable={props.count === props.initCount}
+                />
             </div>
-            <div>
-                {error}
-            </div>
-            <SuperButton
-            title={"incr"}
-            onClickHandler={OnClickIncreaseCountHandler}
-            disable={props.count === props.maxInitCount}
-            />
-            <SuperButton
-            title={"reset"}
-            onClickHandler={OnClickResetCountHandler}
-            disable={props.count === props.initCount}
-            />
         </div>
     );
 };
-
-{/*<button onClick={OnClickIncreaseCountHandler}>incr</button>*/}
-{/*<button onClick={OnClickResetCountHandler}>reset</button>*/}
