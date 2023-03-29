@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './Counter.module.css'
 
 type SuperButtonType = {
