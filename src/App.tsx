@@ -7,18 +7,20 @@ export type CountType = {
     minCount: number
     count: number
     maxCount: number
-    message: { set: string, error: string }
+    status: string
 }
+//"Enter values and press 'set'" , "Incorrect value!"
 function App() {
     const [count, setCount] = useState<CountType>({
         minCount: 0,
         count: 0,
         maxCount: 5,
-        message: {
-            set: "Enter values and press 'set'",
-            error: "Incorrect value!"
-        }
+        status: ""
     })
+    const [settingCount, setSettingCount] = useState<SettingCountType>(
+        {
+            minCount: 0, maxCount: 5, status: ''
+        })
     // useEffect(() => {
     //     const get = localStorage.getItem("count")
     //     if (get) {
@@ -37,14 +39,27 @@ function App() {
     const resetCount = () => {
         setCount({...count, count: count.minCount})
     }
-    const countSetValue = (minCount: number, maxCount: number) => {
-        setCount({...count, minCount: minCount, maxCount: maxCount, count: minCount})
+    const countSetValue = () => {
+        setCount({...count, minCount: settingCount.minCount, maxCount: settingCount.maxCount, count: settingCount.minCount, status: ""})
     }
+
     const settingsMin = (min: number) =>{
-        return min
+        setSettingCount({...settingCount, minCount: min})
+        if (min < 0 || min >= settingCount.maxCount || settingCount.maxCount < 0 || settingCount.maxCount < settingCount.minCount){
+            return setCount({...count, status:  "Incorrect value!"})
+        }
+        if (min !== count.minCount){
+            return setCount({...count, status:  "Enter values and press 'set'"})
+        }
     }
     const settingsMax = (max: number) =>{
-        return max
+        setSettingCount({...settingCount, maxCount: max})
+        if (max < 0 || max <= settingCount.minCount || settingCount.minCount < 0 || settingCount.minCount > settingCount.maxCount){
+            return setCount({...count, status:  "Incorrect value!"})
+        }
+        if (max !== count.maxCount) {
+            return setCount({...count, status: "Enter values and press 'set'"})
+        }
     }
 
     return (
@@ -57,8 +72,9 @@ function App() {
             <SetCounter
                 countSetValue={countSetValue}
                 currentValues={count}
-                minCount={settingsMin}
-                maxCount={settingsMax}
+                currentSettingValues={settingCount}
+                settingsMin={settingsMin}
+                settingsMax={settingsMax}
             />
         </div>
     );

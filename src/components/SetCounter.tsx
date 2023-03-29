@@ -5,49 +5,42 @@ import {CountType} from "../App";
 
 export type SetCounterType = {
     currentValues: CountType
-    countSetValue: (minCount: number, maxCount: number) => void
-    minCount: ( min: number)=> void
-    maxCount: ( max: number)=> void
+    countSetValue: () => void
+    settingsMin: (min: number)=>void
+    settingsMax: (max: number)=>void
+    currentSettingValues: SettingCountType
 
 }
 export type SettingCountType = {
     minCount: number
     maxCount: number
+    status: string
 }
 export const SetCounter = (props: SetCounterType) => {
-    const [settingCount, setSettingCount] = useState<SettingCountType>(
-        {
-            minCount: 0, maxCount: 5
-        })
-
-
     const onChangeMaxCountHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setSettingCount({...settingCount, maxCount: JSON.parse(e.currentTarget.value)})
-        props.maxCount(JSON.parse(e.currentTarget.value))
+        props.settingsMax(JSON.parse(e.currentTarget.value))
     }
     const onChangeStartCountHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setSettingCount({...settingCount, minCount: JSON.parse(e.currentTarget.value)})
-        props.minCount(JSON.parse(e.currentTarget.value))
+        props.settingsMin(JSON.parse(e.currentTarget.value))
     }
     const onClickSetCountHandler = () => {
-        let minCount = settingCount.minCount
-        let maxCount = settingCount.maxCount
-        props.countSetValue(minCount, maxCount)
+        props.countSetValue()
     }
+
     return (
         <div className={s.wrapper}>
             <div className={s.block}>
                 <div>max value
                     <input
                         type="number"
-                        value={settingCount.maxCount}
+                        value={props.currentSettingValues.maxCount}
                         onChange={onChangeMaxCountHandler}
                     />
                 </div>
                 <div>start value
                     <input
                         type="number"
-                        value={settingCount.minCount}
+                        value={props.currentSettingValues.minCount}
                         onChange={onChangeStartCountHandler}
                     />
                 </div>
@@ -55,7 +48,7 @@ export const SetCounter = (props: SetCounterType) => {
             <div className={s.flexButton}>
                 <SuperButton
                     title={"set"}
-                    disable={props.currentValues.minCount === settingCount.minCount && props.currentValues.maxCount === settingCount.maxCount || settingCount.minCount >= settingCount.maxCount}
+                    disable={!props.currentValues.status}
                     onClickHandler={onClickSetCountHandler}
                 />
             </div>
