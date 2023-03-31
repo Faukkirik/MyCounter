@@ -21,15 +21,15 @@ function App() {
         {
             minCount: 0, maxCount: 5, status: ''
         })
-    // useEffect(() => {
-    //     const get = localStorage.getItem("count")
-    //     if (get) {
-    //         setCount(JSON.parse(get))
-    //     }
-    // },[])
-    // useEffect(() => {
-    //     localStorage.setItem("count", JSON.stringify(count))
-    // }, [count])
+     useEffect(() => {
+         const get = localStorage.getItem("count")
+         if (get) {
+             setCount({...count, count: JSON.parse(get)})
+         }
+     },[])
+     useEffect(() => {
+         localStorage.setItem("count", JSON.stringify(count.count))
+     }, [count])
 
     const increaseCount = () => {
         if (count.count < count.maxCount) {
@@ -45,7 +45,7 @@ function App() {
 
     const settingsMin = (min: number) =>{
         setSettingCount({...settingCount, minCount: min})
-        if (min < 0 || min >= settingCount.maxCount || settingCount.maxCount < 0 || settingCount.maxCount < settingCount.minCount){
+        if (min < 0 || min >= settingCount.maxCount || settingCount.maxCount < 0 || settingCount.maxCount < min){
             return setCount({...count, status:  "Incorrect value!"})
         }
         if (min !== count.minCount){
@@ -54,7 +54,7 @@ function App() {
     }
     const settingsMax = (max: number) =>{
         setSettingCount({...settingCount, maxCount: max})
-        if (max < 0 || max <= settingCount.minCount || settingCount.minCount < 0 || settingCount.minCount > settingCount.maxCount){
+        if (max < 0 || max <= settingCount.minCount || settingCount.minCount < 0 || settingCount.minCount > max){
             return setCount({...count, status:  "Incorrect value!"})
         }
         if (max !== count.maxCount) {

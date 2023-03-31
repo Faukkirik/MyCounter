@@ -30,15 +30,19 @@ export const SetCounter = (props: SetCounterType) => {
     return (
         <div className={s.wrapper}>
             <div className={s.block}>
-                <div>max value
+                <div className={s.boxSize}>
+                    <div>max value</div>
                     <input
+                        className={s.input}
                         type="number"
                         value={props.currentSettingValues.maxCount}
                         onChange={onChangeMaxCountHandler}
                     />
                 </div>
-                <div>start value
+                <div className={s.boxSize}>
+                    <div>start value</div>
                     <input
+                        className={s.input}
                         type="number"
                         value={props.currentSettingValues.minCount}
                         onChange={onChangeStartCountHandler}
@@ -48,7 +52,7 @@ export const SetCounter = (props: SetCounterType) => {
             <div className={s.flexButton}>
                 <SuperButton
                     title={"set"}
-                    disable={!props.currentValues.status}
+                    disable={!props.currentValues.status || props.currentValues.status === "Incorrect value!"}
                     onClickHandler={onClickSetCountHandler}
                 />
             </div>
