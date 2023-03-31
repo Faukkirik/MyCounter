@@ -22,14 +22,19 @@ function App() {
             minCount: 0, maxCount: 5, status: ''
         })
      useEffect(() => {
-         const get = localStorage.getItem("count")
+         let get = localStorage.getItem("count")
+         let getSet = localStorage.getItem("settingCount")
          if (get) {
-             setCount({...count, count: JSON.parse(get)})
+             setCount( JSON.parse(get))
+         }
+         if (getSet) {
+             setSettingCount(JSON.parse(getSet))
          }
      },[])
      useEffect(() => {
-         localStorage.setItem("count", JSON.stringify(count.count))
-     }, [count])
+         localStorage.setItem("count", JSON.stringify(count))
+         localStorage.setItem("settingCount", JSON.stringify(settingCount))
+     }, [count, settingCount])
 
     const increaseCount = () => {
         if (count.count < count.maxCount) {
