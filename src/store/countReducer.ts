@@ -16,7 +16,6 @@ const initialState = {
     status: ""
 }
 export const countReducer = (state: StateType = initialState, action: ActionType) => {
-    debugger
     switch (action.type){
         case 'INCREASE-COUNT':
             return {...state, count: state.count + 1}

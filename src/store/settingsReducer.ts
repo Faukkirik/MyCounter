@@ -12,7 +12,6 @@ const initialState = {
     status: ""
 }
 export const settingsReducer = (state: StateType = initialState, action: ActionType) => {
-    debugger
     switch (action.type){
         case 'SETTINGS-MIN':
             return {...state, minCount: action.min}
